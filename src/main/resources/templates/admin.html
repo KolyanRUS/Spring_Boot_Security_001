@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <title>Admin</title>
+</head>
+<body>
+<div>
+    <form action="/admin" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <input type="submit" name="ButtonName" value="Delete_All_Users"/>
+    </form>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>User_name</th>
+            <th>User_password</th>
+            <th>Button for removing</th>
+            <th>Button for updating</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.password}></td>
+            <td>
+                <form action="/admin" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <input type="submit" name="ButtonName" value="id_user" th:attr="value=${user.id}"/>
+                </form>
+            </td>
+            <td>
+                <form action="/updateuser" method="get">
+                    <input type="hidden" name="user_id" value="id_user" th:attr="value=${user.getId_user()}"/>
+                    <input type="submit" name="ButtonName" value="Update User"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <a href = "/createuser">Create_User</a>
+</div>
+</body>
+</html>
