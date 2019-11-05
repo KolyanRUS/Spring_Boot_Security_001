@@ -29,7 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/admin/**")
                     .hasRole("ADMIN")
@@ -40,7 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user")
                 .hasAnyRole("ADMIN","USER")
                 .and().formLogin()//настройка входа
-                    .loginPage("/login").successHandler(customizeAuthenticationSuccessHandler)
+                    ./*loginPage("/login").*/successHandler(customizeAuthenticationSuccessHandler)
                 .usernameParameter("login").passwordParameter("password")
                 .and().logout().permitAll()
                 .and().exceptionHandling().accessDeniedPage("/403");

@@ -18,7 +18,7 @@ public class TestDataInitializer implements InitializingBean {
         User user = new User();
         user.setId_user(1);
         user.setName("upd_Ivan");
-        user.setPassword("333");
+        user.setPassword("jjj");
         user.setRoles(roleSet);
         userDAO.updateUser(user);
     }

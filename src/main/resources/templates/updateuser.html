@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update_User</title>
+</head>
+<body>
+<div>
+    <a href="/admin">Admin_Menu</a>
+</div>
+<div>
+    <form action="/updateuser" method="post" th:inline="text">
+        <p><small>Role selection</small>
+            <select name="role">
+                <option selected="selected" th:value="${rolesArray[0]}">[[${rolesArray[0]}]]</option>
+                <option th:value="${rolesArray[1]}">[[${rolesArray[1]}]]</option>
+            </select></p>
+        <p><small>Id</small>
+            <small>[[${us.getId_user()}]]</small>
+            <input type="hidden" name="id" th:value="${us.getId_user()}"/>
+        </p>
+        <p><small>Name</small>
+            <input type="text" name="name" th:value="${us.getUsername()}" size="5" />
+        </p>
+        <p><small>Password</small>
+            <input type="text" name="password" th:value="${us.getPassword()}" size="5" />
+        </p>
+        <input type="submit" name="ButtonName" value="Update_User"/>
+    </form>
+</div>
+</body>
+</html>

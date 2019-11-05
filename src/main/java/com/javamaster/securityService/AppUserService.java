@@ -20,6 +20,7 @@ public class AppUserService implements UserDetailsService {
             throws UsernameNotFoundException {
         User user = null;
         try{
+            int u = 0; System.out.println("username::"+username+"::");
             user = userRepo.getUser(username);
         } catch (Throwable throwable) {
             System.out.println("user======="+throwable.toString());
