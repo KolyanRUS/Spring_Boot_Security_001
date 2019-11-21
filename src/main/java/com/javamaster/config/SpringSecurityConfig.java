@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @ComponentScan("com.javamaster.*")
@@ -20,8 +19,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("userDetailsService")
     UserDetailsService userDetailsService;
-    //@Autowired
-    //private AccessDeniedHandler accessDeniedHandler;
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -40,24 +37,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user")
                 .hasAnyRole("ADMIN","USER")
                 .and().formLogin()//настройка входа
-                    ./*loginPage("/login").*/successHandler(customizeAuthenticationSuccessHandler)
+                    .successHandler(customizeAuthenticationSuccessHandler)
                 .usernameParameter("login").passwordParameter("password")
                 .and().logout().permitAll()
                 .and().exceptionHandling().accessDeniedPage("/403");
-        /*http.csrf().disable()
-                .authorizeRequests()
-                    .antMatchers("/admin/**")
-                    .hasRole("ADMIN")
-                    .antMatchers("/createuser")
-                    .hasRole("ADMIN")
-                    .antMatchers("/updateuser")
-                    .hasRole("ADMIN")
-                .antMatchers("/user")
-                .hasAnyRole("ADMIN","USER")
-                .and().formLogin()//настройка входа
-                    .loginPage("/login").successHandler(customizeAuthenticationSuccessHandler)
-                .usernameParameter("login").passwordParameter("password")
-                .and().logout().permitAll()
-                .and().exceptionHandling().accessDeniedPage("/403");*/
     }
 }

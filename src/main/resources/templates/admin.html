@@ -1,41 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin</title>
+    <meta charset="UTF-8"/>
+    <title>Admin Page</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
 </head>
-<body>
-<div>
-    <form action="/admin" method="post">
-        <input type="submit" name="ButtonName" value="Delete_All_Users"/>
-    </form>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>User_name</th>
-            <th>User_password</th>
-            <th>User_role</th>
-            <th>Button for removing</th>
-            <th>Button for updating</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.getId_user()}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.password}"></td>
-            <td th:text="${user.getRole()}"></td>
-            <td>
-                <form action="/admin" method="post">
-                    <input type="submit" name="ButtonName" value="id_user" th:attr="value=${user.getId_user()}"/>
+<body class="bg-light"><!--bg-light это слабосветлый (почти белый) цвет фона-->
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow"><!--навигационная панель-->
+                                                                    <!--navbar-dark - тёмная тема навбара, fixed-top - фиксирование сверху-->
+                                                                    <!--bg-dark - чёрный вариант тёмной темы-->
+                                                                    <!--flex[флекс-элемент]-md[Medium-устройство(ширина 720px)]-nowrap[не переносить на другую строку]-->
+                                                                    <!--p-0 - p-0{padding:0!important}//нулевой отсутп-->
+                                                                    <!--shadow - затемнение-->
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Spring Boot Project</a>
+        <!--navbar-brand{display:inline-block;padding-top:.3125rem;padding-bottom:.3125rem;margin-right:1rem;font-size:1.25rem;line-height:inherit;white-space:nowrap}-->
+        <!--субкомпонент .navbar-brand предназначен для названия вашей компании, продукта или имени проекта-->
+        <!--col-sm-3{-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}-->
+        <!--col-md-2{-ms-flex:0 0 16.666667%;flex:0 0 16.666667%;max-width:16.666667%}-->
+        <!--mr-0,.mx-0{margin-right:0!important}-->
+        <ul class="navbar-nav px-3"><!--ul - список-->
+            <!--нави элемент:.navbar-nav{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none}-->
+            <!--.px-3{padding-right:1rem!important}-->
+            <li class="nav-item text-nowrap"><!--пункт списка-->
+                <!--nav-item - пункт навбара-->
+                <!--.text-nowrap{white-space:nowrap!important}-->
+                <form method="post" th:action="@{/logout}">
+                    <button class="btn btn-outline-dark border-0 rounded-0 text-white-50">Logout</button>
                 </form>
-            </td>
-            <td>
-                <form action="/updateuser" method="get">
-                    <input type="hidden" name="user_id" value="id_user" th:attr="value=${user.getId_user()}"/>
-                    <input type="submit" name="ButtonName" value="Update User"/>
-                </form>
-            </td>
-        </tr>
-    </table>
-    <a href = "/createuser">Create_User</a>
-</div>
+            </li>
+        </ul>
+    </nav>
 </body>
 </html>

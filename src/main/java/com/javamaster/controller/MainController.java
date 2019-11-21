@@ -2,7 +2,6 @@ package com.javamaster.controller;
 
 import com.javamaster.model.Role;
 import com.javamaster.model.User;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,7 +58,7 @@ public class MainController {
             }
         //
         model.addAttribute("users", userList);
-        return "admin";
+        return "admin.html.txt";
     }
     @RequestMapping(value="/admin", method=RequestMethod.POST)
     public String getAdminPagePost(Model model, @RequestParam(value="ButtonName") String butname, HttpServletResponse resp) throws SQLException {
@@ -74,7 +73,7 @@ public class MainController {
                 System.out.println("throwable[Admin_doPost_deleteUser]: "+throwable.toString());
             }
         }
-        return "admin";
+        return "admin.html.txt";
     }
 /*
     @GetMapping("/admin")
@@ -91,10 +90,23 @@ public class MainController {
     public String about() {
         return "/about";
     }
-
-
-
-    */
+*/
+    @RequestMapping(value="/index", method=RequestMethod.GET)
+    public String getIndexPageGet() {
+        return "index";
+    }
+    @PostMapping("/index")
+    public String postIndex(@RequestParam(value="username") String username,@RequestParam(value="password") String password) {
+        try {
+            System.out.println("INDEX-POST--OUT:::::username::"+username+"::password::"+password+"::");
+            if(password.equals(usi.getUser(username).getPassword())) {
+                return "redirect:/admin";
+            }
+        } catch (Throwable throwable) {
+            System.out.println("MainController_index_post::"+throwable.toString());
+        }
+        return "index";
+    }
     @RequestMapping(value="/createuser", method=RequestMethod.GET)
     public String getCreateuserPageGet(Model model) {
         return "createuser";
