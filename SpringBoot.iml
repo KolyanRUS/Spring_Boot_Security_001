@@ -96,7 +96,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.1.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.1.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.1.9.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: mysql:mysql-connector-java:8.0.17" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.17" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:bootstrap:4.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:popper.js:1.15.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:3.4.1" level="project" />
