@@ -58,7 +58,7 @@ public class MainController {
             }
         //
         model.addAttribute("users", userList);
-        return "admin.html.txt";
+        return "admin.html";
     }
     @RequestMapping(value="/admin", method=RequestMethod.POST)
     public String getAdminPagePost(Model model, @RequestParam(value="ButtonName") String butname, HttpServletResponse resp) throws SQLException {
