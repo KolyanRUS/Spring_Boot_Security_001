@@ -39,9 +39,9 @@ public class MainController {
     public String postLogin(@RequestParam(value="username") String username,@RequestParam(value="password") String password) {
         try {
             System.out.println("LOGIN-POST--OUT:::::username::"+username+"::password::"+password+"::");
-            if(password.equals(usi.getUser(username).getPassword())) {
+            /*if(password.equals(usi.getUser(username).getPassword())) {
                 return "redirect:/admin";
-            }
+            }*/
         } catch (Throwable throwable) {
             System.out.println("MainController_login_post::"+throwable.toString());
         }
@@ -49,7 +49,7 @@ public class MainController {
     }
     @RequestMapping(value="/admin", method=RequestMethod.GET)
     public String getAdminPageGet(Model model) throws SQLException {
-        List<User> userList = usi.getListUsers();
+        List<User> userList = usi.getAllUsers();
         //
             //СПЕЦИАЛЬНЫЙ КОД ДЛЯ ВЫВОДА ПАРОЛЕЙ ЮЗЕРОВ ИЗ СПИСКА
             int lengthList = userList.size();
@@ -63,11 +63,11 @@ public class MainController {
     @RequestMapping(value="/admin", method=RequestMethod.POST)
     public String getAdminPagePost(Model model, @RequestParam(value="ButtonName") String butname, HttpServletResponse resp) throws SQLException {
         if(butname.equals("Delete_All_Users")) {
-            usi.cleanTable();
+            //usi.cleanTable();
         } else {
             try {
                 int number = Integer.parseInt(butname);
-                usi.deleteId(number);
+                //usi.deleteId(number);
                 return "redirect:/admin";
             } catch (Throwable throwable) {
                 System.out.println("throwable[Admin_doPost_deleteUser]: "+throwable.toString());
@@ -99,9 +99,9 @@ public class MainController {
     public String postIndex(@RequestParam(value="username") String username,@RequestParam(value="password") String password) {
         try {
             System.out.println("INDEX-POST--OUT:::::username::"+username+"::password::"+password+"::");
-            if(password.equals(usi.getUser(username).getPassword())) {
+            /*if(password.equals(usi.getUser(username).getPassword())) {
                 return "redirect:/admin";
-            }
+            }*/
         } catch (Throwable throwable) {
             System.out.println("MainController_index_post::"+throwable.toString());
         }
@@ -114,13 +114,13 @@ public class MainController {
     @RequestMapping(value="/createuser", method=RequestMethod.POST)
     public String getCreateuserPagePost(Model model, @RequestParam(value="role") String role, @RequestParam(value="name") String name, @RequestParam(value="password") String password, HttpServletResponse resp) throws SQLException {
         Set<Role> userRole = new HashSet<>();
-        if(role.equals(usi.getRoleById(1).getRole())) {
+        /*if(role.equals(usi.getRoleById(1).getRole())) {
             userRole = Collections.singleton(usi.getRoleById(1));
         } else if(role.equals(usi.getRoleById(2).getRole())) {
             userRole = Collections.singleton(usi.getRoleById(2));
-        }
+        }*/
         User u = new User(name,password,userRole);
-        usi.saveUser(u);
+        usi.save(u);
         return "redirect:/admin";
     }
     @RequestMapping(value = "/updateuser", method = RequestMethod.GET)
@@ -129,20 +129,20 @@ public class MainController {
         String role = null;
         try {
             id = Integer.parseInt(user_id);
-            User us = usi.get(id);
+            User us = usi.getUserById(id);
             role = ((Role)(us.getRoles().toArray()[0])).getRole();
             model.addAttribute("us",us);
         } catch(Throwable throwable) {
             System.out.println("ERROR::id = Integer.parseInt(user_id)::"+throwable.toString()+"::::user_id::"+user_id);
         }
         String[] rolesArray = new String[2];
-        if(role.equals(usi.getRoleById(1).getRole())) {
-            rolesArray[0] = usi.getRoleById(1).getRole();
-            rolesArray[1] = usi.getRoleById(2).getRole();
+        /*if(role.equals(usi.getRoleById(1).getRole())) {
+            ////rolesArray[0] = usi.getRoleById(1).getRole();
+            ////rolesArray[1] = usi.getRoleById(2).getRole();
         } else if(role.equals(usi.getRoleById(2).getRole())) {
             rolesArray[0] = usi.getRoleById(2).getRole();
             rolesArray[1] = usi.getRoleById(1).getRole();
-        }
+        }*/
         model.addAttribute("rolesArray",rolesArray);
         return "updateuser";
     }
@@ -150,17 +150,17 @@ public class MainController {
     public String getUpdateuserPagePost(Model model, @RequestParam(value="role") String role, @RequestParam(value="name") String name, @RequestParam(value="password") String password, @RequestParam(value="id") String id) throws SQLException {
         int idd;
         Set<Role> userRole = new HashSet<>();
-        Role ris = usi.getRole(role);
-        userRole.add(ris);
+        //Role ris = usi.getRole(role);
+        //userRole.add(ris);
         try {
             idd = Integer.parseInt(id);
             User user = new User();
             user.setId_user(idd);
             user.setName(name);
             user.setPassword(password);
-            Set<Role> roleSet = Collections.singleton((usi.getDao()).getRole(role));
-            user.setRoles(roleSet);
-            usi.updateUser(user);
+            //Set<Role> roleSet = Collections.singleton((usi.getDao()).getRole(role));
+            //user.setRoles(roleSet);
+            //usi.updateUser(user);
             return "redirect:/admin";
         } catch(Throwable throwable) {
             System.out.println("ERROR::id = Integer.parseInt(req.getParameter(\"idd\"))::"+throwable.toString());

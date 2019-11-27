@@ -2,6 +2,7 @@ package com.javamaster.dao;
 
 import com.javamaster.model.Role;
 import com.javamaster.model.User;
+import org.springframework.data.repository.CrudRepository;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,7 +15,26 @@ import java.util.Set;
  * <p>
  * Описание курса и лицензия: https://github.com/vitaly-chibrikov/stepic_java_webserver
  */
-public interface UserDAO {
+public interface UserDAO extends CrudRepository<User, Long> {
+
+    @Override
+    Iterable<User> findAll();
+
+    /*@Override
+    User findOne(Integer integer);*/
+
+    @Override
+    void delete(User user);
+
+    @Override
+    void deleteAll();
+
+    @Override
+    <S extends User> S save(S s);
+
+    /*@Override
+    <S extends User> Iterable<S> save(Iterable<S> iterable);*/
+    /*
 
     void cleanTable() throws SQLException;
 
@@ -38,5 +58,5 @@ public interface UserDAO {
 
     User get(long id) throws SQLException;
 
-    void saveRole(Role role) throws SQLException;
+    void saveRole(Role role) throws SQLException;*/
 }

@@ -3,6 +3,8 @@ import com.javamaster.dao.*;
 import com.javamaster.model.Role;
 import com.javamaster.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,40 +17,34 @@ public class UserServiceImple implements UserService {
     public UserServiceImple(UserDAO dao) {
         this.dao = dao;
     }
-    public void cleanTable() throws SQLException {
-        dao.cleanTable();
+
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    RoleRepo roleRepo;
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepo.getUserByName(s);
     }
-    public void deleteId(int id) throws SQLException {
-        dao.deleteId(id);
+
+    public Set<Role> getRoleByName(String role){
+        return roleRepo.findRoleByRole(role);
     }
-    public void insertUser(String name, String password, Set<Role> roles) throws SQLException {
-        dao.insertUser(name, password, roles);
+
+    @Override
+    public void save(User user) {
+        userRepo.save(user);
     }
-    public void saveUser(User user) throws SQLException {
-        dao.saveUser(user);
+
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) userRepo.findAll();
     }
-    public void updateUser(User user) throws SQLException {
-        dao.updateUser(user);
-    }
-    public long getUserId(String login) throws SQLException {
-        return dao.getUserId(login);
-    }
-    public List<User> getListUsers() throws SQLException {
-        return dao.getListUsers();
-    }
-    public User getUser(String login) throws  SQLException {
-        return dao.getUser(login);
-    }
-    public Role getRoleById(long id) throws  SQLException {
-        return dao.getRoleById(id);
-    }
-    public Role getRole(String role) throws  SQLException {
-        return dao.getRole(role);
-    }
-    public User get(long id) throws SQLException {
-        return dao.get(id);
-    }
-    public UserDAO getDao() {
-        return dao;
+
+    @Override
+    public User getUserById(long id) {
+        return userRepo.getUserById(id);
     }
 }

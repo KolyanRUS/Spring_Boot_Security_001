@@ -14,24 +14,24 @@ public class TestDataInitializer implements InitializingBean {
     @Autowired
     private UserDAO userDAO;
     private void testUpdate() throws SQLException {
-        Set<Role> roleSet = Collections.singleton(userDAO.getRoleById(1));
+        /*Set<Role> roleSet = Collections.singleton(userDAO.getRoleById(1));
         User user = new User();
         user.setId_user(1);
         user.setName("upd_Ivan");
         user.setPassword("jjj");
         user.setRoles(roleSet);
-        userDAO.updateUser(user);
+        userDAO.updateUser(user);*/
     }
     private void datainit() throws SQLException {
-        Role role = new Role();
+        /*Role role = new Role();
         role.setRole("ROLE_ADMIN");
         Role role2 = new Role();
         role2.setRole("ROLE_USER");
         userDAO.saveRole(role);
-        userDAO.saveRole(role2);
+        userDAO.saveRole(role2);*/
 
 
-        Set<Role> roleSet = Collections.singleton(userDAO.getRoleById(1));
+        /*Set<Role> roleSet = Collections.singleton(userDAO.getRoleById(1));
         User user = new User();
         user.setName("Ivan");
         user.setRoles(roleSet);
@@ -43,7 +43,7 @@ public class TestDataInitializer implements InitializingBean {
         user2.setName("Vovan");
         user2.setRoles(roleSet2);
         user2.setPassword("9011");
-        userDAO.insertUser(user2.getName(),user2.getPassword(),user2.getRoles());
+        userDAO.insertUser(user2.getName(),user2.getPassword(),user2.getRoles());*/
     }
     private void init() throws SQLException {
         datainit();
