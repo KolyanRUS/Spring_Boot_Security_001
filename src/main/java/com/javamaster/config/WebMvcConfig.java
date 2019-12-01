@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/popper/**").addResourceLocations("classpath:/META-INF/resources/webjars/popper.js/1.15.0/umd/");
         registry.addResourceHandler("/bootstrap/**").addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap/4.3.1/");
     }
-    @Override
+    /*@Override
     public void configurePathMatch(PathMatchConfigurer p) {
         //
     }
@@ -90,5 +90,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public MessageCodesResolver getMessageCodesResolver() {
         return null;//
-    }
+    }*/
 }
