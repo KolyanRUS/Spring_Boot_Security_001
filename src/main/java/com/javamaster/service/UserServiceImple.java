@@ -4,6 +4,7 @@ import com.javamaster.model.Role;
 import com.javamaster.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.*;
 import java.sql.SQLException;
@@ -31,6 +32,16 @@ public class UserServiceImple implements UserService {
 
     public Set<Role> getRoleByName(String role){
         return roleRepo.findRoleByRole(role);
+    }
+
+    @Override
+    public void deleteById(Long l) {
+        dao.deleteById(l);
+    }
+
+    @Override
+    public void deleteAll() {
+        dao.deleteAll();
     }
 
     @Override

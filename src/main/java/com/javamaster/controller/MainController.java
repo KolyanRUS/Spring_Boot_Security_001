@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,23 +59,26 @@ public class MainController {
             }
         //
         model.addAttribute("users", userList);
+        User user = new User();
+        model.addAttribute("tempUser", user);
         return "admin.html";
     }
-    @RequestMapping(value="/admin", method=RequestMethod.POST)
+    /*@RequestMapping(value="/admin", method=RequestMethod.POST)
     public String getAdminPagePost(Model model, @RequestParam(value="ButtonName") String butname, HttpServletResponse resp) throws SQLException {
         if(butname.equals("Delete_All_Users")) {
-            //usi.cleanTable();
+            usi.deleteAll();
         } else {
             try {
                 int number = Integer.parseInt(butname);
-                //usi.deleteId(number);
+                Long num = (long)number;
+                usi.deleteById(num);
                 return "redirect:/admin";
             } catch (Throwable throwable) {
                 System.out.println("throwable[Admin_doPost_deleteUser]: "+throwable.toString());
             }
         }
-        return "admin.html.txt";
-    }
+        return "admin.html";
+    }*/
 /*
     @GetMapping("/admin")
     public String admin() {
@@ -99,7 +103,7 @@ public class MainController {
     public String postIndex(@RequestParam(value="username") String username,@RequestParam(value="password") String password) {
         try {
             System.out.println("INDEX-POST--OUT:::::username::"+username+"::password::"+password+"::");
-            /*if(password.equals(usi.getUser(username).getPassword())) {
+            /*if(password.equals(usi.getUserById(username).getPassword())) {
                 return "redirect:/admin";
             }*/
         } catch (Throwable throwable) {
@@ -155,7 +159,7 @@ public class MainController {
         try {
             idd = Integer.parseInt(id);
             User user = new User();
-            user.setId_user(idd);
+            user.setId(idd);
             user.setName(name);
             user.setPassword(password);
             //Set<Role> roleSet = Collections.singleton((usi.getDao()).getRole(role));
@@ -184,5 +188,31 @@ public class MainController {
         }
         model.setViewName("403");
         return model;
+    }
+    @RequestMapping(path = {"/admin/addUser"}, method = RequestMethod.POST)
+    String addUser(@ModelAttribute User user,
+                   @RequestParam String role,
+                   Model model) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(usi.getRoleByName(role.toUpperCase()));
+        usi.save(user);
+        model.addAttribute("users", usi.getAllUsers());
+        return "admin.html";
+    }
+    @RequestMapping(path = {"/user"}, method = RequestMethod.GET)
+    String userPage(Model model){
+        User user = (User) usi.loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("user", user);
+        return "userPage";
+    }
+    @RequestMapping(method = RequestMethod.POST)
+    String editUser(@ModelAttribute User user,
+                    @RequestParam String role,
+                    Model model) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(usi.getRoleByName(role.toUpperCase()));
+        usi.save(user);
+        model.addAttribute("users", usi.getAllUsers());
+        return "admin";
     }
 }

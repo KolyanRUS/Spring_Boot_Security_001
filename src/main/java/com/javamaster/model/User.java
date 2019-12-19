@@ -23,6 +23,17 @@ public class User implements UserDetails {
     private String name;
     @Column(name = "password", unique = false)
     private String password;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "email", unique = false)
+    private String email;
     @ManyToMany(fetch=FetchType.EAGER ,cascade=CascadeType.REFRESH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -33,11 +44,18 @@ public class User implements UserDetails {
         this.name = name;
         this.password = password;
         this.roles = roles;
+        this.email = null;
     }
-    public long getId_user() {
+    public User(String name, String password, String email, Set<Role> roles) {
+        this.name = name;
+        this.password = password;
+        this.roles = roles;
+        this.email = email;
+    }
+    public long getId() {
         return id;
     }
-    public void setId_user(long id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getName() {

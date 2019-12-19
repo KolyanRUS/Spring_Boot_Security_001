@@ -8,9 +8,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-interface UserService extends UserDetailsService {
+public interface UserService extends UserDetailsService {
 	public void save(User user);
 	public List<User> getAllUsers();
 	public Set<Role> getRoleByName(String role);
 	public User getUserById(long id);
+	public void deleteById(Long l);
+	public void deleteAll();
 }

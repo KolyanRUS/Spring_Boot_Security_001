@@ -27,6 +27,9 @@ public interface UserDAO extends CrudRepository<User, Long> {
     void delete(User user);
 
     @Override
+    void deleteById(Long var1);
+
+    @Override
     void deleteAll();
 
     @Override
