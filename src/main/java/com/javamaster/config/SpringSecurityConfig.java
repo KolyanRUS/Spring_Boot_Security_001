@@ -39,6 +39,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bootstrap/**","/js/**", "/jquery/**", "/popper.js/**").permitAll()
                     .antMatchers("/admin/**")
                     .hasRole("ADMIN")
+                    //.antMatchers("/api/**")
+                    //.hasRole("ADMIN")
                     .antMatchers("/createuser")
                     .hasRole("ADMIN")
                     .antMatchers("/updateuser")
