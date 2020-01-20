@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.javamaster.service.UserServiceImple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
@@ -110,6 +111,10 @@ public class MainController {
             System.out.println("MainController_index_post::"+throwable.toString());
         }
         return "index";
+    }
+    @RequestMapping(value="/getuserrs", method=RequestMethod.GET)
+    public String getGetusersPageGet(Model model) {
+        return "getuserrs";
     }
     @RequestMapping(value="/createuser", method=RequestMethod.GET)
     public String getCreateuserPageGet(Model model) {
@@ -215,4 +220,8 @@ public class MainController {
         model.addAttribute("users", usi.getAllUsers());
         return "admin";
     }
+    /*@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }*/
 }
