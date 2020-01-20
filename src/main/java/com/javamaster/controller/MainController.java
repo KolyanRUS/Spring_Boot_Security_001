@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.*;
-
+@RequestMapping
 @Controller
 public class MainController {
     //Мы могли бы расписать эти 2 маппинга отдельно, но смысла дублировать одинаковый код нет.

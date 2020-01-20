@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>LoginPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
+    </script>
+    <style>
+        #menu>.nav>.nav-item{
+            padding-left: 0;
+            padding-bottom: 0;
+        }
+        #menu>.nav>.nav-item>.nav-link{
+            padding-left: 2rem;
+        }
+        #menu>.nav>.active{
+            background: #519ed4;
+            color: white;
+        }
+        #menu>.nav>.active>.nav-link{
+            color: white;
+        }
+        #menu>.nav>.nav-item:hover{
+            background: darkgray;
+        }
+        #menu>.nav>.nav-item:hover>.nav-link{
+            color: white;
+        }
+
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Spring Boot Project</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <form method="post" th:action="@{/logout}">
+                <button class="btn btn-outline-dark border-0 rounded-0 text-white-50">Logout</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row w-100">
+        <div id="menu" class="col-md-2 col-sm-3 vh-100 bg-white pl-0 pr-0">
+            <ul id="left-bar" class="nav flex-column pt-5 w-100" >
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user">User</a>
+                </li>
+            </ul>
+        </div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 pt-5">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">User panel</h1>
+            </div>
+            <div class="container-fluid">
+                <p th:text="Hello + ' ' + ${user.name}"></p>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
