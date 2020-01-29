@@ -64,6 +64,21 @@ public class MainController {
         model.addAttribute("tempUser", user);
         return "admin.html";
     }
+    @RequestMapping(value="/rest_admin", method=RequestMethod.GET)
+    public String getRestAdminPageGet(Model model) throws SQLException {
+        List<User> userList = usi.getAllUsers();
+        //
+        //СПЕЦИАЛЬНЫЙ КОД ДЛЯ ВЫВОДА ПАРОЛЕЙ ЮЗЕРОВ ИЗ СПИСКА
+        int lengthList = userList.size();
+        for (int i = 0; i<lengthList; i++) {
+            System.out.println("ADMIN-GET--OUT::userList["+Integer.toString(i)+"].password::"+userList.get(i).getPassword()+"::");//
+        }
+        //
+        model.addAttribute("users", userList);
+        User user = new User();
+        model.addAttribute("tempUser", user);
+        return "rest_admin.html";
+    }
     /*@RequestMapping(value="/admin", method=RequestMethod.POST)
     public String getAdminPagePost(Model model, @RequestParam(value="ButtonName") String butname, HttpServletResponse resp) throws SQLException {
         if(butname.equals("Delete_All_Users")) {

@@ -1,0 +1,232 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<meta charset="UTF-8"/>
+<head>
+    <title>Admin Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript">
+        async function count_rabbits() {
+            let email = await document.getElementById('add_email');
+            let login = await document.getElementById('add_login');
+            let password = await document.getElementById('add_password');
+            let role = await document.getElementById('add_role');
+            let response = await fetch('http://localhost:8080/api/addUser',{
+                method: 'POST',
+                body: JSON.stringify({
+                    name: login,
+                    email: email,
+                    role: role,
+                    password: password
+                }),
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            });
+            let content = await response.json();
+            await console.log(content);
+        }
+    </script>
+    <script type="text/javascript">
+        async function getUsers() {
+            let response = await fetch('http://localhost:8080/api/getUsers');
+            let content = await response.json();
+            await console.log(content);
+            let list = await document.getElementById('elemGetUsers');
+            let key;
+            //list._clear();
+            for(key in content) {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td><span>${content[key].id}</span></td>
+                <td><span>${content[key].role}</span></td>
+                <td><span>${content[key].name}</span></td>
+                <td><span>${content[key].password}</span></td>
+                <td><span>${content[key].email}</span></td>
+                <td>
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                                    th:attr="data-target='#userId-' + ${content[key].id}"">
+                                                Edit
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" th:attr="id='userId-'+${content[key].id}" tabindex="-1"
+                                                 role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content justify-content-center">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Modal title</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action="#" th:action="@{/rest_admin}" th:object="${content[key]}"
+                                                              method="post">
+                                                            <div class="modal-body">
+                                                                <div class="container">
+                                                                    <div class="row justify-content-center">
+                                                                        <div class="col-5 text-center">
+                                                                            <span>ID</span>
+                                                                            <input class="form-control" type="text"
+                                                                                   th:name="id"
+                                                                                   th:value="${content[key].id}"
+                                                                                   readonly>
+                                                                            <span>Email</span>
+                                                                            <input class="form-control" type="text"
+                                                                                   th:name="email"
+                                                                                   th:value="${content[key].email}">
+                                                                            <span>Login</span>
+                                                                            <input class="form-control" type="text"
+                                                                                   th:name="name"
+                                                                                   th:value="${content[key].name}">
+                                                                            <span>Password</span>
+                                                                            <input class="form-control" type="text"
+                                                                                   th:name="password"
+                                                                                   th:value="${content[key].password}">
+                                                                            <select th:name="role" th:value="${content[key].role}">
+                                                                                <option>ROLE_USER</option>
+                                                                                <option>ROLE_ADMIN</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Закрыть
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Edit
+                                                                    user
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>`
+                ;
+                list.append(tr);
+            }
+        }
+        getUsers()
+    </script>
+    <style>
+        #menu > .nav > .nav-item {
+            padding-left: 0;
+            padding-bottom: 0;
+        }
+        #menu > .nav > .nav-item > .nav-link {
+            padding-left: 2rem;
+        }
+        #menu > .nav > .active {
+            background: #519ed4;
+            color: white;
+        }
+        #menu > .nav > .active > .nav-link {
+            color: white;
+        }
+        #menu > .nav > .nav-item:hover {
+            background: darkgray;
+        }
+        #menu > .nav > .nav-item:hover > .nav-link {
+            color: white;
+        }
+        .table>thead>tr>th{
+            border-top: 0;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Spring Boot Project</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <form method="post" th:action="@{/logout}">
+                <button class="btn btn-outline-dark border-0 rounded-0 text-white-50">Logout</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div class="row w-100">
+        <div id="menu" class="col-md-2 col-sm-3 vh-100 bg-white pl-0 pr-0">
+            <ul id="left-bar" class="nav flex-column pt-5 w-100">
+                <li class="nav-item active">
+                    <a class="nav-link"  href="/admin">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">User</a>
+                </li>
+            </ul>
+        </div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 pt-5">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Admin panel</h1>
+            </div>
+            <div class="container-fluid">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#userTable" data-toggle="tab" role="tab"
+                           aria-controls="userTable" aria-selected="true">User Table</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#newUser" data-toggle="tab">New User</a></li>
+                </ul>
+                <div class="tab-content border rounded">
+                    <div role="tabpanel" class="tab-pane show active" id="userTable">
+                        <div class="bg-light rounded pt-1 pb-1 "><b class="ml-4">Admin panel</b></div>
+                        <div class="table-responsive pl-3 pr-3 bg-white border-top-0">
+                            <table class="table table-striped pt-5">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Role</th>
+                                    <th>Login</th>
+                                    <th>Password</th>
+                                    <th>Email</th>
+                                    <th>Edit</th>
+                                </tr>
+                                </thead>
+                                <tbody id="elemGetUsers">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="newUser">
+                        <div class="bg-light rounded pt-1 pb-1 border-top-1"><b class="ml-4">Add new user</b></div>
+                        <div class="container bg-white">
+                            <div class="row justify-content-center">
+                                <div class="col-5 text-center pt-4">
+                                    <form th:object="${tempUser}">
+                                        <span>Email</span>
+                                        <input class="form-control" id="add_email" th:name="email" placeholder="Enter email">
+                                        <span>Login</span>
+                                        <input class="form-control" id="add_login" th:name="name" placeholder="Login">
+                                        <span>Password</span>
+                                        <input class="form-control" id="add_password" th:name="password" placeholder="Password">
+                                        <select th:name="role" id="add_role">
+                                            <option selected="selected">Выберите роль</option>
+                                            <option>ROLE_USER</option>
+                                            <option>ROLE_ADMIN</option>
+                                        </select>
+                                        <div class="pt-3 pb-3">
+                                            <button type="submit" onclick="count_rabbits()" class="btn btn-success">Add new user</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

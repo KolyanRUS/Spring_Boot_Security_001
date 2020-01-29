@@ -1,29 +1,13 @@
-//value = "/getUsers"
 async function getResponse() {
-    ////Let response = await fetch('http://localhost:8080/getUsers')
-    ////Let content = await response.json()
-    //content = content.splice(0,999999)
-    ////console.Log(content)
-    /*Let list = document.querySelector('.posts')
-    Let key;
+    let response = await fetch('http://localhost:8080/api/getUsers');
+    let content = await response.json();
+    await console.log(content);
+    let list = await document.getElementById('elem');
+    let key;
     for(key in content) {
-        list.innerHTML +=
-            <tr>
-                <td>${content[key].id}</td>
-                <td>${content[key].name}</td>
-                <td>${content[key].password}</td>
-                <td>${content[key].email}</td>
-                <td>${content[key].getRole()}</td>
-            </tr>
-    }*/
+        let tr = document.createElement('tr');
+        tr.innerHTML = `<td>${content[key].id}</td><td>${content[key].name}</td><td>${content[key].password}</td><td>${content[key].email}</td><td>${content[key].role}</td>`;
+        list.append(tr);
+    }
 }
 getResponse()
-/*
-    <tr>
-        <td>1</td>
-        <td>ROLE_ADMIN</td>
-        <td>upd_Ivan</td>
-        <td>jjj</td>
-        <td>ivan@mail.ru</td>
-    </tr>
- */
