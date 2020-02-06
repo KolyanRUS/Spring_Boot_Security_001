@@ -12,12 +12,52 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
     </script>
     <script type="text/javascript">
-        async function count_rabbits() {
+        async function add_user() {
+            let email = document.getElementById('add_email').value;
+            let login = document.getElementById('add_login').value;
+            let password = document.getElementById('add_password').value;
+            let role = document.getElementById('add_role').value;
+            alert("email:1::"+email);
+            setTimeout(() => { console.log("World!"); alert("world#1"); }, 10000);
+            setTimeout(() => { console.log("World!"); alert("world#2"); }, 10000);
+            setTimeout(() => { console.log("World!"); alert("world#3"); }, 10000);
+            let response = await fetch('http://localhost:8080/api/addUser',{
+                method: 'POST',
+                body: JSON.stringify({
+                    name: login,
+                    email: email,
+                    roles: [
+                        {
+                            "role": role,
+                            "authority": role,
+                            "userRoleId": getIdByRole(role)
+                        }
+                    ],
+                    password: password
+                }),
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            });
+            alert("email:2::"+email);
+            //setTimeout(() => {  console.log("World!"); }, 10000);setTimeout(() => {  console.log("World!"); }, 10000);setTimeout(() => {  console.log("World!"); }, 10000);/*
+            /*setTimeout(() => {  console.log("World!"); }, 5000);
+            setTimeout(() => {  console.log("World!"); }, 5000);
             let email = await document.getElementById('add_email');
+            setTimeout(() => {  console.log("World!"); }, 5000);
+            setTimeout(() => {  console.log("World!"); }, 5000);
+            await console.log("add_email:"+email);
+            await console.log("add_email:"+email);
+            let list = await document.getElementById('ad_pan');
+            list.append(email);
+            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
+            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
+            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
+            setTimeout(() => {  console.log("World!"); }, 10000);
             let login = await document.getElementById('add_login');
             let password = await document.getElementById('add_password');
-            let role = await document.getElementById('add_role');
-            let response = await fetch('http://localhost:8080/api/addUser',{
+            let role = await document.getElementById('add_role');*/
+            /*let response = await fetch('http://localhost:8080/api/addUser',{
                 method: 'POST',
                 body: JSON.stringify({
                     name: login,
@@ -30,90 +70,50 @@
                 }
             });
             let content = await response.json();
-            await console.log(content);
+            await console.log(content);*/
         }
-    </script>
-    <script type="text/javascript">
+        function getIdByRole(role) {
+            if (role == "ROLE_ADMIN") {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
         async function getUsers() {
             let response = await fetch('http://localhost:8080/api/getUsers');
             let content = await response.json();
-            await console.log(content);
+            //await console.log(content);
             let list = await document.getElementById('elemGetUsers');
             let key;
             //list._clear();
             for(key in content) {
                 let tr = document.createElement('tr');
                 tr.innerHTML = `
-                        <td><span>${content[key].id}</span></td>
-                <td><span>${content[key].role}</span></td>
-                <td><span>${content[key].name}</span></td>
-                <td><span>${content[key].password}</span></td>
-                <td><span>${content[key].email}</span></td>
+                        <td id="edit_id"><span>${content[key].id}</span></td>
+                <td id="edit_role"><span>${content[key].role}</span></td>
+                <td id="edit_name"><span>${content[key].name}</span></td>
+                <td id="edit_password"><span>${content[key].password}</span></td>
+                <td id="edit_email"><span>${content[key].email}</span></td>
                 <td>
-                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
-                                                    th:attr="data-target='#userId-' + ${content[key].id}"">
-                                                Edit
-                                            </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" th:attr="id='userId-'+${content[key].id}" tabindex="-1"
-                                                 role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content justify-content-center">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Modal title</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form action="#" th:action="@{/rest_admin}" th:object="${content[key]}"
-                                                              method="post">
-                                                            <div class="modal-body">
-                                                                <div class="container">
-                                                                    <div class="row justify-content-center">
-                                                                        <div class="col-5 text-center">
-                                                                            <span>ID</span>
-                                                                            <input class="form-control" type="text"
-                                                                                   th:name="id"
-                                                                                   th:value="${content[key].id}"
-                                                                                   readonly>
-                                                                            <span>Email</span>
-                                                                            <input class="form-control" type="text"
-                                                                                   th:name="email"
-                                                                                   th:value="${content[key].email}">
-                                                                            <span>Login</span>
-                                                                            <input class="form-control" type="text"
-                                                                                   th:name="name"
-                                                                                   th:value="${content[key].name}">
-                                                                            <span>Password</span>
-                                                                            <input class="form-control" type="text"
-                                                                                   th:name="password"
-                                                                                   th:value="${content[key].password}">
-                                                                            <select th:name="role" th:value="${content[key].role}">
-                                                                                <option>ROLE_USER</option>
-                                                                                <option>ROLE_ADMIN</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Закрыть
-                                                                </button>
-                                                                <button type="submit" class="btn btn-primary">Edit
-                                                                    user
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>`
+                                            <button type="button" onclick="edit_user()" class="btn btn-info btn-sm" data-toggle="modal"
+                                                    th:attr="data-target='#userId-' + ${content[key].id}"">${content[key].id}</button>
+                </td>
+                                            `
                 ;
                 list.append(tr);
             }
+        }
+        async function edit_user() {
+            let email = await document.getElementById('edit_email');
+            let name = await document.getElementById('edit_name');
+            let password = await document.getElementById('edit_password');
+            let role = await document.getElementById('edit_role');
+            let id_id = await document.getElementById('id_id');
+            await console.log('id_id:'+id_id);
+            await console.log('edit_email:'+email);
+            await console.log('edit_name:'+name);
+            await console.log('edit_password:'+password);
+            await console.log('edit_role:'+role);
         }
         getUsers()
     </script>
@@ -180,12 +180,12 @@
                 </ul>
                 <div class="tab-content border rounded">
                     <div role="tabpanel" class="tab-pane show active" id="userTable">
-                        <div class="bg-light rounded pt-1 pb-1 "><b class="ml-4">Admin panel</b></div>
+                        <div class="bg-light rounded pt-1 pb-1 "><b id="ad_pan" class="ml-4">Admin panel</b></div>
                         <div class="table-responsive pl-3 pr-3 bg-white border-top-0">
                             <table class="table table-striped pt-5">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th id="id_id">Id</th>
                                     <th>Role</th>
                                     <th>Login</th>
                                     <th>Password</th>
@@ -195,6 +195,64 @@
                                 </thead>
                                 <tbody id="elemGetUsers">
                                 </tbody>
+                                <div>
+                                <!-- Modal// -->
+                                    <!--<div class="modal fade" th:attr="id='userId-'+${content[key].id}" tabindex="-1"
+                                         role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content justify-content-center">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="#" th:action="@{/rest_admin}" th:object="${content[key]}"
+                                                      method="post">
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <div class="row justify-content-center">
+                                                                <div class="col-5 text-center">
+                                                                    <span>ID</span>
+                                                                    <input class="form-control" type="text"
+                                                                           th:name="id"
+                                                                           th:value="${content[key].id}"
+                                                                           readonly>
+                                                                    <span>Email</span>
+                                                                    <input class="form-control" type="text"
+                                                                           th:name="email"
+                                                                           th:value="${content[key].email}">
+                                                                    <span>Login</span>
+                                                                    <input class="form-control" type="text"
+                                                                           th:name="name"
+                                                                           th:value="${content[key].name}">
+                                                                    <span>Password</span>
+                                                                    <input class="form-control" type="text"
+                                                                           th:name="password"
+                                                                           th:value="${content[key].password}">
+                                                                    <select th:name="role" th:value="${content[key].role}">
+                                                                        <option>ROLE_USER</option>
+                                                                        <option>ROLE_ADMIN</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Закрыть
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Edit
+                                                            user
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                <!-- //Modal -->
+                                </div>
                             </table>
                         </div>
                     </div>
@@ -216,7 +274,7 @@
                                             <option>ROLE_ADMIN</option>
                                         </select>
                                         <div class="pt-3 pb-3">
-                                            <button type="submit" onclick="count_rabbits()" class="btn btn-success">Add new user</button>
+                                            <button type="submit" onclick="add_user()" class="btn btn-success">Add new user</button>
                                         </div>
                                     </form>
                                 </div>
