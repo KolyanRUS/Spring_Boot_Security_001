@@ -40,37 +40,6 @@
                 }
             });
             alert("email:2::"+email);
-            //setTimeout(() => {  console.log("World!"); }, 10000);setTimeout(() => {  console.log("World!"); }, 10000);setTimeout(() => {  console.log("World!"); }, 10000);/*
-            /*setTimeout(() => {  console.log("World!"); }, 5000);
-            setTimeout(() => {  console.log("World!"); }, 5000);
-            let email = await document.getElementById('add_email');
-            setTimeout(() => {  console.log("World!"); }, 5000);
-            setTimeout(() => {  console.log("World!"); }, 5000);
-            await console.log("add_email:"+email);
-            await console.log("add_email:"+email);
-            let list = await document.getElementById('ad_pan');
-            list.append(email);
-            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
-            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
-            setTimeout(() => {  console.log("add_email:"+email); }, 4000);
-            setTimeout(() => {  console.log("World!"); }, 10000);
-            let login = await document.getElementById('add_login');
-            let password = await document.getElementById('add_password');
-            let role = await document.getElementById('add_role');*/
-            /*let response = await fetch('http://localhost:8080/api/addUser',{
-                method: 'POST',
-                body: JSON.stringify({
-                    name: login,
-                    email: email,
-                    role: role,
-                    password: password
-                }),
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                }
-            });
-            let content = await response.json();
-            await console.log(content);*/
         }
         function getIdByRole(role) {
             if (role == "ROLE_ADMIN") {
@@ -89,13 +58,13 @@
             for(key in content) {
                 let tr = document.createElement('tr');
                 tr.innerHTML = `
-                        <td id="edit_id"><span>${content[key].id}</span></td>
-                <td id="edit_role"><span>${content[key].role}</span></td>
-                <td id="edit_name"><span>${content[key].name}</span></td>
-                <td id="edit_password"><span>${content[key].password}</span></td>
-                <td id="edit_email"><span>${content[key].email}</span></td>
+                        <td id="edit_id#${content[key].id}"><span>${content[key].id}</span></td>
+                <td id="edit_role#${content[key].id}"><span>${content[key].role}</span></td>
+                <td id="edit_name#${content[key].id}"><span>${content[key].name}</span></td>
+                <td id="edit_password#${content[key].id}"><span>${content[key].password}</span></td>
+                <td id="edit_email#${content[key].id}"><span>${content[key].email}</span></td>
                 <td>
-                                            <button type="button" onclick="edit_user()" class="btn btn-info btn-sm" data-toggle="modal"
+                                            <button type="button" onclick="edit_user(${content[key].id})" class="btn btn-info btn-sm" data-toggle="modal"
                                                     th:attr="data-target='#userId-' + ${content[key].id}"">${content[key].id}</button>
                 </td>
                                             `
@@ -103,17 +72,11 @@
                 list.append(tr);
             }
         }
-        async function edit_user() {
-            let email = await document.getElementById('edit_email');
-            let name = await document.getElementById('edit_name');
-            let password = await document.getElementById('edit_password');
-            let role = await document.getElementById('edit_role');
-            let id_id = await document.getElementById('id_id');
-            await console.log('id_id:'+id_id);
-            await console.log('edit_email:'+email);
-            await console.log('edit_name:'+name);
-            await console.log('edit_password:'+password);
-            await console.log('edit_role:'+role);
+        async function edit_user(id) {
+            await console.log('EDIT_USER');
+            let edit_id = await document.getElementById('edit_id#'+id);
+            await console.log('edit_id#'+id+':'+edit_id.value);
+            let response = await fetch('http://localhost:8080/api/deleteById/'+id, {method: 'POST'});
         }
         getUsers()
     </script>

@@ -43,6 +43,11 @@ public class AdminRestController {
         System.out.println("------//------");
         return uss;
     }
+    @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.POST)
+    public User deleteUser(@PathVariable("id") long id){
+        service.deleteById(id);
+        return null;
+    }
     @RequestMapping(value = "/openByName/{name}", method = RequestMethod.GET)
     public User getUser(@PathVariable("name") String name){
         System.out.println("------//------");
