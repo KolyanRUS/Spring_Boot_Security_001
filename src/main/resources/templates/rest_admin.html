@@ -64,19 +64,58 @@
                 <td id="edit_password#${content[key].id}"><span>${content[key].password}</span></td>
                 <td id="edit_email#${content[key].id}"><span>${content[key].email}</span></td>
                 <td>
-                                            <button type="button" onclick="edit_user(${content[key].id})" class="btn btn-info btn-sm" data-toggle="modal"
-                                                    th:attr="data-target='#userId-' + ${content[key].id}"">${content[key].id}</button>
+                                            <button type="button" onclick="form_edit(${content[key].id},${content[key].role},${content[key].name},${content[key].password},${content[key].email})"
+                                            class="btn btn-info btn-sm" data-toggle="modal" data-target="#userId" value="${content[key].id}">${content[key].id}</button>
+                </td>
+                <td>
+                                            <button type="button" onclick="delete_user(${content[key].id})" class="btn btn-info btn-sm">${content[key].id}</button>
                 </td>
                                             `
                 ;
                 list.append(tr);
             }
         }
-        async function edit_user(id) {
+        async function form_edit(id,role,name,password,email) {
+            document.forms["param"].elements["form_edit_id"].value = id;
+            document.forms["param"].elements["form_edit_role"].value = role;
+            document.forms["param"].elements["form_edit_name"].value = name;
+            document.forms["param"].elements["form_edit_password"].value = password;
+            document.forms["param"].elements["form_edit_email"].value = email;
+        }
+        async function edit_user() {
+            await console.log('EDIT_USER');
+            let idd = await document.getElementById('formEdit_id').value;
+            let email = await document.getElementById('formEdit_email').value;
+            let name = await document.getElementById('formEdit_name').value;
+            let password = await document.getElementById('formEdit_password').value;
+            let role = await document.getElementById('formEdit_role').value;
+            let response = await fetch('http://localhost:8080/api/editUser',{
+                method: 'POST',
+                body: JSON.stringify({
+                    id: idd,
+                    name: name,
+                    email: email,
+                    roles: [
+                        {
+                            "role": role,
+                            "authority": role,
+                            "userRoleId": getIdByRole(role)
+                        }
+                    ],
+                    password: password
+                }),
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            });
             await console.log('EDIT_USER');
             let edit_id = await document.getElementById('edit_id#'+id);
             await console.log('edit_id#'+id+':'+edit_id.value);
+        }
+        async function delete_user(id) {
+            await console.log('DELETE_USER');
             let response = await fetch('http://localhost:8080/api/deleteById/'+id, {method: 'POST'});
+            getUsers();
         }
         getUsers()
     </script>
@@ -154,13 +193,14 @@
                                     <th>Password</th>
                                     <th>Email</th>
                                     <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody id="elemGetUsers">
                                 </tbody>
                                 <div>
-                                <!-- Modal// -->
-                                    <!--<div class="modal fade" th:attr="id='userId-'+${content[key].id}" tabindex="-1"
+                                    <!-- Modal// -->
+                                    <div class="modal fade" id="userId" tabindex="-1"
                                          role="dialog">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content justify-content-center">
@@ -171,30 +211,21 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="#" th:action="@{/rest_admin}" th:object="${content[key]}"
-                                                      method="post">
+                                                <form name="param" action="#">
                                                     <div class="modal-body">
                                                         <div class="container">
                                                             <div class="row justify-content-center">
                                                                 <div class="col-5 text-center">
                                                                     <span>ID</span>
-                                                                    <input class="form-control" type="text"
-                                                                           th:name="id"
-                                                                           th:value="${content[key].id}"
-                                                                           readonly>
+                                                                    <input class="form-control" type="text" name="form_edit_id" id="formEdit_id"
+                                                                           readonly value="">
                                                                     <span>Email</span>
-                                                                    <input class="form-control" type="text"
-                                                                           th:name="email"
-                                                                           th:value="${content[key].email}">
+                                                                    <input class="form-control" type="text" name="form_edit_email" id="formEdit_email" value="">
                                                                     <span>Login</span>
-                                                                    <input class="form-control" type="text"
-                                                                           th:name="name"
-                                                                           th:value="${content[key].name}">
+                                                                    <input class="form-control" type="text" name="form_edit_name" id="formEdit_name" value="">
                                                                     <span>Password</span>
-                                                                    <input class="form-control" type="text"
-                                                                           th:name="password"
-                                                                           th:value="${content[key].password}">
-                                                                    <select th:name="role" th:value="${content[key].role}">
+                                                                    <input class="form-control" type="text" name="form_edit_password" id="formEdit_password" value="">
+                                                                    <select name="form_edit_role" id="formEdit_role" value="">
                                                                         <option>ROLE_USER</option>
                                                                         <option>ROLE_ADMIN</option>
                                                                     </select>
@@ -206,15 +237,15 @@
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Закрыть
                                                         </button>
-                                                        <button type="submit" class="btn btn-primary">Edit
+                                                        <button onclick="edit_user()" type="submit" class="btn btn-primary">Edit
                                                             user
                                                         </button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>-->
-                                <!-- //Modal -->
+                                    </div>
+                                    <!-- //Modal -->
                                 </div>
                             </table>
                         </div>
