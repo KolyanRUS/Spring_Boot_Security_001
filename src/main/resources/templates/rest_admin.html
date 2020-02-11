@@ -51,12 +51,16 @@
         async function getUsers() {
             let response = await fetch('http://localhost:8080/api/getUsers');
             let content = await response.json();
-            //await console.log(content);
+            await console.log('users:::');
+            await console.log(content);
+            await console.log(':::users');
             let list = await document.getElementById('elemGetUsers');
             let key;
             //list._clear();
             for(key in content) {
                 let tr = document.createElement('tr');
+                tr.id = `tr_id#${content[key].id}`;
+                //tr.setAttribute("id","tr_id#${content[key].id}");
                 tr.innerHTML = `
                         <td id="edit_id#${content[key].id}"><span>${content[key].id}</span></td>
                 <td id="edit_role#${content[key].id}"><span>${content[key].role}</span></td>
@@ -64,7 +68,8 @@
                 <td id="edit_password#${content[key].id}"><span>${content[key].password}</span></td>
                 <td id="edit_email#${content[key].id}"><span>${content[key].email}</span></td>
                 <td>
-                                            <button type="button" onclick="form_edit(${content[key].id},${content[key].role},${content[key].name},${content[key].password},${content[key].email})"
+                                            <button type="button"
+                                            onclick="form_edit(${content[key].id})"
                                             class="btn btn-info btn-sm" data-toggle="modal" data-target="#userId" value="${content[key].id}">${content[key].id}</button>
                 </td>
                 <td>
@@ -75,12 +80,20 @@
                 list.append(tr);
             }
         }
-        async function form_edit(id,role,name,password,email) {
-            document.forms["param"].elements["form_edit_id"].value = id;
-            document.forms["param"].elements["form_edit_role"].value = role;
-            document.forms["param"].elements["form_edit_name"].value = name;
-            document.forms["param"].elements["form_edit_password"].value = password;
-            document.forms["param"].elements["form_edit_email"].value = email;
+        async function form_edit(id/*,role,name,password,email*/) {//,${content[key].role},${content[key].name},${content[key].password},${content[key].email}
+            await console.log('form_edit_BEGIN');
+            let response = await fetch('http://localhost:8080/api/openModalById/'+id);
+            let user = await response.json();
+            await console.log(user);
+            formEdit(user.id,user.role,user.name,user.password,user.email);
+            await console.log('form_edit_END');
+        }
+        function formEdit(id,role,name,password,email) {
+            document.getElementById('formEdit_id').value = id;
+            document.getElementById('formEdit_role').value = role;
+            document.getElementById('formEdit_name').value = name;
+            document.getElementById('formEdit_password').value = password;
+            document.getElementById('formEdit_email').value = email;
         }
         async function edit_user() {
             await console.log('EDIT_USER');
@@ -108,14 +121,12 @@
                     "Content-Type": "application/json; charset=utf-8"
                 }
             });
-            await console.log('EDIT_USER');
-            let edit_id = await document.getElementById('edit_id#'+id);
-            await console.log('edit_id#'+id+':'+edit_id.value);
         }
         async function delete_user(id) {
             await console.log('DELETE_USER');
             let response = await fetch('http://localhost:8080/api/deleteById/'+id, {method: 'POST'});
-            getUsers();
+            let str = await document.getElementById('tr_id#'+id);
+            await str.remove();
         }
         getUsers()
     </script>
@@ -218,14 +229,14 @@
                                                                 <div class="col-5 text-center">
                                                                     <span>ID</span>
                                                                     <input class="form-control" type="text" name="form_edit_id" id="formEdit_id"
-                                                                           readonly value="">
+                                                                           readonly>
                                                                     <span>Email</span>
-                                                                    <input class="form-control" type="text" name="form_edit_email" id="formEdit_email" value="">
+                                                                    <input class="form-control" type="text" name="form_edit_email" id="formEdit_email">
                                                                     <span>Login</span>
-                                                                    <input class="form-control" type="text" name="form_edit_name" id="formEdit_name" value="">
+                                                                    <input class="form-control" type="text" name="form_edit_name" id="formEdit_name">
                                                                     <span>Password</span>
-                                                                    <input class="form-control" type="text" name="form_edit_password" id="formEdit_password" value="">
-                                                                    <select name="form_edit_role" id="formEdit_role" value="">
+                                                                    <input class="form-control" type="text" name="form_edit_password" id="formEdit_password">
+                                                                    <select name="form_edit_role" id="formEdit_role">
                                                                         <option>ROLE_USER</option>
                                                                         <option>ROLE_ADMIN</option>
                                                                     </select>
