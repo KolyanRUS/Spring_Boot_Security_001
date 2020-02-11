@@ -3,10 +3,6 @@ async function add_user() {
     let login = document.getElementById('add_login').value;
     let password = document.getElementById('add_password').value;
     let role = document.getElementById('add_role').value;
-    /*alert("email:1::"+email);
-    setTimeout(() => { console.log("World!"); alert("world#1"); }, 10000);
-    setTimeout(() => { console.log("World!"); alert("world#2"); }, 10000);
-    setTimeout(() => { console.log("World!"); alert("world#3"); }, 10000);*/
     let response = await fetch('http://localhost:8080/api/addUser',{
         method: 'POST',
         body: JSON.stringify({
@@ -50,11 +46,9 @@ async function getUsers() {
     await console.log(':::users');
     let list = await document.getElementById('elemGetUsers');
     let key;
-    //list._clear();
     for(key in content) {
         let tr = document.createElement('tr');
         tr.id = `tr_id#${content[key].id}`;
-        //tr.setAttribute("id","tr_id#${content[key].id}");
         tr.innerHTML = `
                         <td id="edit_id#${content[key].id}"><span>${content[key].id}</span></td>
                 <td id="edit_role#${content[key].id}"><span>${content[key].role}</span></td>
@@ -74,7 +68,7 @@ async function getUsers() {
         list.append(tr);
     }
 }
-async function form_edit(id/*,role,name,password,email*/) {//,${content[key].role},${content[key].name},${content[key].password},${content[key].email}
+async function form_edit(id) {
     await console.log('form_edit_BEGIN');
     let response = await fetch('http://localhost:8080/api/openModalById/'+id);
     let user = await response.json();
@@ -123,16 +117,3 @@ async function delete_user(id) {
     await str.remove();
 }
 getUsers()
-/*async function getResponse() {
-    let response = await fetch('http://localhost:8080/api/getUsers');
-    let content = await response.json();
-    await console.log(content);
-    let list = await document.getElementById('elem');
-    let key;
-    for(key in content) {
-        let tr = document.createElement('tr');
-        tr.innerHTML = `<td>${content[key].id}</td><td>${content[key].name}</td><td>${content[key].password}</td><td>${content[key].email}</td><td>${content[key].role}</td>`;
-        list.append(tr);
-    }
-}
-getResponse()*/

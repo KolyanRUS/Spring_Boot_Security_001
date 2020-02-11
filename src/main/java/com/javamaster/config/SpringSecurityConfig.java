@@ -56,7 +56,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-        //auth.authenticationProvider(daoAuthenticationProvider());
     }
     @Bean
     public PasswordEncoder passwordEncoder() {

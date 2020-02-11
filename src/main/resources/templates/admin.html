@@ -37,25 +37,11 @@
             }
         </style>
     </head>
-    <body class="bg-light"><!--bg-light это слабосветлый (почти белый) цвет фона-->
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow"><!--навигационная панель-->
-        <!--navbar-dark - тёмная тема навбара, fixed-top - фиксирование сверху-->
-        <!--bg-dark - чёрный вариант тёмной темы-->
-        <!--flex[флекс-элемент]-md[Medium-устройство(ширина 720px)]-nowrap[не переносить на другую строку]-->
-        <!--p-0 - p-0{padding:0!important}//нулевой отсутп-->
-        <!--shadow - затемнение-->
+    <body class="bg-light">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Spring Boot Project</a>
-        <!--navbar-brand{display:inline-block;padding-top:.3125rem;padding-bottom:.3125rem;margin-right:1rem;font-size:1.25rem;line-height:inherit;white-space:nowrap}-->
-        <!--субкомпонент .navbar-brand предназначен для названия вашей компании, продукта или имени проекта-->
-        <!--col-sm-3{-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}-->
-        <!--col-md-2{-ms-flex:0 0 16.666667%;flex:0 0 16.666667%;max-width:16.666667%}-->
-        <!--mr-0,.mx-0{margin-right:0!important}-->
-        <ul class="navbar-nav px-3"><!--ul - список-->
-            <!--нави элемент:.navbar-nav{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none}-->
-            <!--.px-3{padding-right:1rem!important}-->
-            <li class="nav-item text-nowrap"><!--пункт списка-->
-                <!--nav-item - пункт навбара-->
-                <!--.text-nowrap{white-space:nowrap!important}-->
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
                 <form method="post" th:action="@{/logout}">
                     <button class="btn btn-outline-dark border-0 rounded-0 text-white-50">Logout</button>
                 </form>
@@ -114,7 +100,6 @@
                                                         th:attr="data-target='#userId-' + ${iter.index}">
                                                     Edit
                                                 </button>
-
                                                 <!-- Modal -->
                                                 <div class="modal fade" th:attr="id='userId-'+${iter.index}" tabindex="-1"
                                                      role="dialog">
