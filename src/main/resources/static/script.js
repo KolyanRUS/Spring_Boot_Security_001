@@ -33,7 +33,7 @@ async function add_user() {
         let str = await document.getElementById('tr_id#'+content[key].id);
         await str.remove();
     }
-    getUsers();
+    await getUsers();
 }
 function getIdByRole(role) {
     if (role == "ROLE_ADMIN") {

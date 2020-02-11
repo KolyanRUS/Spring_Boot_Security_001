@@ -150,7 +150,7 @@
                                                                                 <input class="form-control" type="text"
                                                                                        th:name="password"
                                                                                        th:value="${user.password}">
-                                                                                <select th:name="role" th:value="${user.roles[0].role}">
+                                                                                <select th:name="role" th:value="${user.getRole()}">
                                                                                     <option>ROLE_USER</option>
                                                                                     <option>ROLE_ADMIN</option>
                                                                                 </select>
