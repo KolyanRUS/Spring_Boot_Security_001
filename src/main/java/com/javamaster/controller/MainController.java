@@ -225,7 +225,7 @@ public class MainController {
         model.addAttribute("user", user);
         return "userPage";
     }
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(path = {"/admin"}, method = RequestMethod.POST)
     String editUser(@ModelAttribute User user,
                     @RequestParam String role,
                     Model model) {
