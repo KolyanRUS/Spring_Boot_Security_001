@@ -27,42 +27,47 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("userService")
     UserDetailsService userDetailsService;
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService);
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/bootstrap/**","/resources/**","/js/**", "/jquery/**", "/popper.js/**").permitAll()
-                    .antMatchers("/admin/**")
-                    .hasRole("ADMIN")
-                    .antMatchers("/rest_admin")
-                    .hasRole("ADMIN")
-                    .antMatchers("/createuser")
-                    .hasRole("ADMIN")
-                    .antMatchers("/updateuser")
-                    .hasRole("ADMIN")
+                .antMatchers("/bootstrap/**", "/resources/**", "/js/**", "/jquery/**", "/popper.js/**").permitAll()
+                .antMatchers("/admin/**")
+                .hasRole("ADMIN")
+                .antMatchers("/rest_admin")
+                .hasRole("ADMIN")
+                .antMatchers("/createuser")
+                .hasRole("ADMIN")
+                .antMatchers("/updateuser")
+                .hasRole("ADMIN")
                 .antMatchers("/user")
-                .hasAnyRole("ADMIN","USER")
+                .hasAnyRole("ADMIN", "USER")
                 .and().formLogin()//настройка входа
-                    .successHandler(customizeAuthenticationSuccessHandler)
+                .successHandler(customizeAuthenticationSuccessHandler)
                 .usernameParameter("login").passwordParameter("password")
                 .and().logout().permitAll()
                 .and().exceptionHandling().accessDeniedPage("/403");
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider(){
+    DaoAuthenticationProvider daoAuthenticationProvider() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(encoder);

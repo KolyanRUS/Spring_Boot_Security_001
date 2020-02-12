@@ -1,36 +1,34 @@
 package com.javamaster.service;
+
 import com.javamaster.dao.*;
 import com.javamaster.model.Role;
 import com.javamaster.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.*;
-import java.sql.SQLException;
+
 import java.util.List;
 import java.util.Set;
 
 @Service("userService")
 public class UserServiceImple implements UserService {
-    private UserDAO dao;
-    @Autowired
-    public UserServiceImple(UserDAO dao) {
-        this.dao = dao;
-    }
+    private UserRepo dao;
 
     @Autowired
-    UserRepo userRepo;
+    public UserServiceImple(UserRepo dao) {
+        this.dao = dao;
+    }
 
     @Autowired
     RoleRepo roleRepo;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepo.getUserByName(s);
+        return dao.getUserByName(s);
     }
 
-    public Set<Role> getRoleByName(String role){
+    public Set<Role> getRoleByName(String role) {
         return roleRepo.findRoleByRole(role);
     }
 
@@ -46,16 +44,16 @@ public class UserServiceImple implements UserService {
 
     @Override
     public void save(User user) {
-        userRepo.save(user);
+        dao.save(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return (List<User>) userRepo.findAll();
+        return (List<User>) dao.findAll();
     }
 
     @Override
     public User getUserById(long id) {
-        return userRepo.getUserById(id);
+        return dao.getUserById(id);
     }
 }

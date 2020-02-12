@@ -1,26 +1,28 @@
 package com.javamaster.initializer;
+
 import com.javamaster.dao.RoleRepo;
-import com.javamaster.dao.UserDAO;
+import com.javamaster.dao.UserRepo;
 import com.javamaster.model.Role;
 import com.javamaster.model.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Set;
+
 @Component
 public class TestDataInitializer implements InitializingBean {
     @Autowired
-    private PasswordEncoder passwordEncoder;// = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserDAO userDAO;
+    private UserRepo userDAO;
     @Autowired
     private RoleRepo roleRepo;
+
     private void testUpdate() throws SQLException {
         Set<Role> roleSet = Collections.singleton(roleRepo.findById(1L).get());
         User user = new User();
@@ -31,6 +33,7 @@ public class TestDataInitializer implements InitializingBean {
         user.setEmail(null);
         userDAO.save(user);
     }
+
     private void datainit() throws SQLException {
         Role role = new Role();
         role.setRole("ROLE_ADMIN");
@@ -47,7 +50,6 @@ public class TestDataInitializer implements InitializingBean {
         user.setPassword(passwordEncoder.encode("123"));
         user.setEmail(null);
         userDAO.save(user);
-        //userDAO.insertUser(user.getName(),user.getPassword(),user.getRoles());
 
         Set<Role> roleSet2 = Collections.singleton(roleRepo.findById(2L).get());
         User user2 = new User();
@@ -56,16 +58,18 @@ public class TestDataInitializer implements InitializingBean {
         user2.setPassword(passwordEncoder.encode("9011"));
         user2.setEmail(null);
         userDAO.save(user2);
-        //userDAO.insertUser(user2.getName(),user2.getPassword(),user2.getRoles());
     }
+
     private void init() throws SQLException {
         datainit();
         testUpdate();
     }
+
     @PostConstruct
     public void postConstruct() throws SQLException {
         init();
     }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         //

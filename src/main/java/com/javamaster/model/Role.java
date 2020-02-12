@@ -1,6 +1,7 @@
 package com.javamaster.model;
 
 import javax.persistence.*;
+
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -21,8 +22,7 @@ public class Role implements GrantedAuthority {
     }
 
     /**
-     * @param userRoleId
-     *            the userRoleId to set
+     * @param userRoleId the userRoleId to set
      */
     public void setUserRoleId(Integer userRoleId) {
         this.id = userRoleId;
@@ -36,8 +36,7 @@ public class Role implements GrantedAuthority {
     }
 
     /**
-     * @param role
-     *            the role to set
+     * @param role the role to set
      */
     public void setRole(String role) {
         this.role = role;
