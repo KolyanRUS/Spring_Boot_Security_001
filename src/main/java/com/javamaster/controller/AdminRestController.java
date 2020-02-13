@@ -48,7 +48,6 @@ public class AdminRestController {
             headers = {"Content-type=application/json"})
     @ResponseBody
     public User editUser(@RequestBody User user) {
-        System.out.println("begin_editUser");
         String password = user.getPassword();
         String role = user.getRoles().iterator().next().getRole();
         user.setPassword(new BCryptPasswordEncoder().encode(password));
