@@ -92,7 +92,7 @@ public class MainController {
             User us = usi.getUserById(id);
             model.addAttribute("us", us);
         } catch (Throwable throwable) {
-            System.out.println("ERROR::id = Integer.parseInt(user_id)::" + throwable.toString() + "::::user_id::" + user_id);
+            //
         }
         String[] rolesArray = new String[2];
         model.addAttribute("rolesArray", rolesArray);
@@ -110,7 +110,7 @@ public class MainController {
             user.setPassword(password);
             return "redirect:/admin";
         } catch (Throwable throwable) {
-            System.out.println("ERROR::id = Integer.parseInt(req.getParameter(\"idd\"))::" + throwable.toString());
+            //
         }
         return null;
     }
@@ -122,11 +122,8 @@ public class MainController {
                 .getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            System.out.println("MainController::403-GET--::userDetail::::" + userDetail + "::");
             String username = userDetail.getUsername();
-            System.out.println("MainController::403-GET--::username::::" + username + "::");
             boolean nameNotExist = username.equals(null);
-            System.out.println("MainController::403-GET--::nameExist::::" + nameNotExist + "::");
             model.addObject("nameExist", nameNotExist);
             model.addObject("username", userDetail.getUsername());
         }
